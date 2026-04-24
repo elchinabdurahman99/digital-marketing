@@ -1,16 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.hostinger.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
 export async function POST(req: NextRequest) {
   try {
     const { name, email, company, message, service, budget } = await req.json();
@@ -18,6 +8,17 @@ export async function POST(req: NextRequest) {
     if (!name || !email) {
       return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
     }
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.hostinger.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: { rejectUnauthorized: false },
+    });
 
     await transporter.sendMail({
       from: `"Roivex Contact" <${process.env.SMTP_USER}>`,
@@ -41,7 +42,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Contact email error:", err);
-    return NextResponse.json({ error: "Failed to send message." }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Contact email error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
