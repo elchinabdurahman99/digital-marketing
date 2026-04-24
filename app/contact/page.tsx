@@ -1,6 +1,37 @@
 "use client";
-import { useState } from "react";
-import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Calendar, Zap, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Calendar, Zap, Star, X } from "lucide-react";
+
+type ToastType = "success" | "error";
+
+function Toast({ type, message, onClose }: { type: ToastType; message: string; onClose: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onClose, 5000);
+    return () => clearTimeout(t);
+  }, [onClose]);
+
+  return (
+    <div
+      className={`fixed bottom-6 right-6 z-50 flex items-start gap-3 px-5 py-4 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.14)] border text-sm font-semibold max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300 ${
+        type === "success"
+          ? "bg-white border-gold-200 text-char-800"
+          : "bg-white border-red-200 text-char-800"
+      }`}
+    >
+      <div
+        className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+          type === "success" ? "bg-gold-50 text-gold-500" : "bg-red-50 text-red-500"
+        }`}
+      >
+        {type === "success" ? <CheckCircle2 size={14} /> : <X size={14} />}
+      </div>
+      <span className="flex-1">{message}</span>
+      <button onClick={onClose} className="text-warm-400 hover:text-char-600 transition-colors ml-1">
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
 import Button from "@/components/ui/Button";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn from "@/components/ui/AnimateIn";
@@ -137,16 +168,36 @@ export default function ContactPage() {
   const [selectedService, setSelectedService] = useState("");
   const [selectedBudget,  setSelectedBudget]  = useState("");
   const [submitted,       setSubmitted]       = useState(false);
+  const [loading,         setLoading]         = useState(false);
+  const [toast,           setToast]           = useState<{ type: ToastType; message: string } | null>(null);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email) return;
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, service: selectedService, budget: selectedBudget }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        setToast({ type: "success", message: "Message sent! We'll be in touch within 24 hours." });
+      } else {
+        setToast({ type: "error", message: "Something went wrong. Please try again." });
+      }
+    } catch {
+      setToast({ type: "error", message: "Something went wrong. Please try again." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="bg-warm-50">
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
       {/* Hero */}
       <section className="pt-36 pb-16 lg:pt-44 relative overflow-hidden">
         <div className="absolute left-1/2 top-0 -translate-x-1/2 w-[600px] h-[250px] rounded-full bg-gold-50 blur-3xl opacity-80 pointer-events-none" />
@@ -235,8 +286,8 @@ export default function ContactPage() {
                     <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} rows={4} placeholder="Current challenges, goals, timeline..." className={`${inputCls} resize-none`} />
                   </div>
 
-                  <Button type="submit" variant="secondary" size="lg" arrow className="w-full justify-center">
-                    Send message &amp; book a call
+                  <Button type="submit" variant="secondary" size="lg" arrow className="w-full justify-center" disabled={loading}>
+                    {loading ? "Sending…" : "Send message & book a call"}
                   </Button>
                   <p className="text-center text-xs text-warm-400 mt-4">We respond within 24 hours. No spam, ever.</p>
                 </form>
