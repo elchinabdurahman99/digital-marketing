@@ -1,0 +1,45 @@
+import { defineType, defineField } from "sanity";
+
+export const hero = defineType({
+  name: "hero",
+  title: "Homepage Hero",
+  type: "document",
+  icon: () => "🏠",
+  fields: [
+    defineField({ name: "eyebrowText",    title: "Eyebrow Text",            type: "string", initialValue: "Trusted by 300+ growing brands" }),
+    defineField({ name: "headlineLine1",  title: "Headline Line 1",         type: "string", initialValue: "We turn" }),
+    defineField({ name: "headlineLine2",  title: "Headline Line 2 (Gold)",  type: "string", initialValue: "marketing" }),
+    defineField({ name: "headlineLine3",  title: "Headline Line 3 (prefix)",type: "string", initialValue: "into" }),
+    defineField({
+      name: "rotatingWords",
+      title: "Rotating Words (one per line)",
+      type: "array",
+      of: [{ type: "string" }],
+      initialValue: ["revenue.", "leads.", "growth.", "results.", "money."],
+    }),
+    defineField({ name: "subtext", title: "Sub Text", type: "text", rows: 2,
+      initialValue: "The agency built by ex–in-house marketers who were tired of pretty dashboards. We deliver compounding revenue — not reports." }),
+    defineField({ name: "primaryCtaText", title: "Primary CTA Text", type: "string", initialValue: "Get free audit" }),
+    defineField({ name: "primaryCtaLink", title: "Primary CTA Link", type: "string", initialValue: "/contact" }),
+    defineField({ name: "secondaryCtaText", title: "Secondary CTA Text", type: "string", initialValue: "See our results" }),
+    defineField({ name: "secondaryCtaLink", title: "Secondary CTA Link", type: "string", initialValue: "/projects" }),
+    defineField({
+      name: "proofCard", title: "Proof Card", type: "object",
+      fields: [
+        defineField({ name: "mainValue",  title: "Main Value",  type: "string", initialValue: "$2.4B" }),
+        defineField({ name: "mainLabel",  title: "Main Label",  type: "string", initialValue: "generated across 300+ brands" }),
+        defineField({ name: "stat1Value", title: "Stat 1 Value",type: "string", initialValue: "6.2×" }),
+        defineField({ name: "stat1Label", title: "Stat 1 Label",type: "string", initialValue: "Avg. ROAS" }),
+        defineField({ name: "stat2Value", title: "Stat 2 Value",type: "string", initialValue: "98%" }),
+        defineField({ name: "stat2Label", title: "Stat 2 Label",type: "string", initialValue: "Retention" }),
+        defineField({ name: "growthValue",title: "Growth Card Value", type: "string", initialValue: "340%" }),
+        defineField({ name: "growthLabel",title: "Growth Card Label", type: "string", initialValue: "Avg. client growth" }),
+        defineField({ name: "clientValue",title: "Clients Card Value", type: "string", initialValue: "300+" }),
+        defineField({ name: "clientLabel",title: "Clients Card Label", type: "string", initialValue: "Brands scaled" }),
+        defineField({ name: "liveWinText",title: "Live Win Chip Text",  type: "string", initialValue: "Meridian just hit +340% MRR in 8 months" }),
+      ],
+    }),
+    defineField({ name: "trustRating",   title: "Trust Rating Text",  type: "string", initialValue: "4.9/5" }),
+    defineField({ name: "trustReviews",  title: "Trust Reviews Count",type: "string", initialValue: "300+" }),
+  ],
+});

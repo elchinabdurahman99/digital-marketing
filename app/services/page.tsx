@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn from "@/components/ui/AnimateIn";
-import { services } from "@/lib/data";
+import { getServices } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -21,7 +21,8 @@ const accentColors = [
   { bg: "#ECFEFF", icon: "#0891B2", border: "#A5F3FC", text: "#0E7490" },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
   return (
     <div className="bg-warm-50">
       {/* Hero */}

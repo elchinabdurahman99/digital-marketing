@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn, { AnimateStagger } from "@/components/ui/AnimateIn";
-import { blogPosts } from "@/lib/data";
+import { getBlogPosts } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -23,9 +23,10 @@ const catBg: Record<string, string> = {
   CRO:           "from-emerald-50 to-warm-50",
 };
 
-export default function BlogPage() {
-  const featured = blogPosts.find((p) => p.featured);
-  const rest     = blogPosts.filter((p) => p !== featured);
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
+  const featured = blogPosts.find((p: { featured: boolean }) => p.featured);
+  const rest     = blogPosts.filter((p: { featured: boolean }) => p !== featured);
 
   return (
     <div className="bg-warm-50">
@@ -71,7 +72,7 @@ export default function BlogPage() {
                   <div className="flex items-center gap-4 text-xs text-warm-400 font-medium mb-6">
                     <span>{featured.author.name}</span>
                     <span className="flex items-center gap-1.5"><Clock size={11} />{featured.readTime}</span>
-                    <span>{featured.date}</span>
+                    <span>{featured.publishedAt ? new Date(featured.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : ""}</span>
                   </div>
                   <div className="flex items-center gap-2 text-gold-500 text-sm font-semibold group-hover:gap-3 transition-all">
                     Read article <ArrowRight size={14} />

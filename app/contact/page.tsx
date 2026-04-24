@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Calendar, Zap } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, CheckCircle2, MessageSquare, Calendar, Zap, Star } from "lucide-react";
 import Button from "@/components/ui/Button";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn from "@/components/ui/AnimateIn";
 
-const services = ["SEO", "Paid Advertising", "Social Media Marketing", "CRO", "Full-Service Partnership", "Not sure yet"];
+const services = ["Paid Search", "Paid Social", "Programmatic Media Buying", "SEO", "Website Development", "Affiliate Marketing", "Not sure yet"];
 const budgets  = ["Under $3k/mo", "$3k–$7k/mo", "$7k–$15k/mo", "$15k–$30k/mo", "$30k+/mo"];
 
 const faqs = [
@@ -16,6 +16,122 @@ const faqs = [
 ];
 
 const inputCls = "w-full px-4 py-3 rounded-xl border border-warm-200 text-sm bg-warm-50 text-char-800 placeholder:text-warm-400 outline-none focus:border-gold-400 focus:ring-2 focus:ring-gold-100 transition-all";
+
+function ReviewForm() {
+  const [form, setForm] = useState({ author: "", role: "", company: "", quote: "", rating: 5 });
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.author || !form.quote) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setStatus(res.ok ? "done" : "error");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "done") {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="w-14 h-14 rounded-2xl bg-gold-50 border border-gold-100 flex items-center justify-center mb-5">
+          <CheckCircle2 size={28} className="text-gold-400" />
+        </div>
+        <h3 className="text-xl font-extrabold text-char-900 mb-2">Thank you for your review!</h3>
+        <p className="text-warm-500 text-sm">Your feedback will appear on our site after a quick review.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Star rating */}
+      <div>
+        <label className="text-[10px] font-bold text-char-600 uppercase tracking-widest block mb-3">Your rating *</label>
+        <div className="flex gap-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setForm({ ...form, rating: star })}
+              className="transition-transform hover:scale-110"
+            >
+              <Star
+                size={28}
+                className={star <= form.rating ? "text-gold-400 fill-gold-400" : "text-warm-200 fill-warm-200"}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label className="text-[10px] font-bold text-char-600 uppercase tracking-widest block mb-2">Your name *</label>
+          <input
+            required
+            value={form.author}
+            onChange={(e) => setForm({ ...form, author: e.target.value })}
+            placeholder="Alex Johnson"
+            className={inputCls}
+          />
+        </div>
+        <div>
+          <label className="text-[10px] font-bold text-char-600 uppercase tracking-widest block mb-2">Your role</label>
+          <input
+            value={form.role}
+            onChange={(e) => setForm({ ...form, role: e.target.value })}
+            placeholder="CMO, Founder…"
+            className={inputCls}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="text-[10px] font-bold text-char-600 uppercase tracking-widest block mb-2">Company</label>
+        <input
+          value={form.company}
+          onChange={(e) => setForm({ ...form, company: e.target.value })}
+          placeholder="Acme Inc."
+          className={inputCls}
+        />
+      </div>
+
+      <div>
+        <label className="text-[10px] font-bold text-char-600 uppercase tracking-widest block mb-2">Your review *</label>
+        <textarea
+          required
+          value={form.quote}
+          onChange={(e) => setForm({ ...form, quote: e.target.value })}
+          rows={4}
+          placeholder="Share your experience working with Roivex…"
+          className={`${inputCls} resize-none`}
+        />
+      </div>
+
+      {status === "error" && (
+        <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>
+      )}
+
+      <Button
+        type="submit"
+        variant="secondary"
+        size="lg"
+        arrow
+        className="w-full justify-center"
+        disabled={status === "loading"}
+      >
+        {status === "loading" ? "Submitting…" : "Submit review"}
+      </Button>
+    </form>
+  );
+}
 
 export default function ContactPage() {
   const [selectedService, setSelectedService] = useState("");
@@ -37,9 +153,9 @@ export default function ContactPage() {
         <div className="relative max-w-7xl mx-auto px-5 lg:px-8 text-center">
           <AnimateIn>
             <SectionLabel center>Let&apos;s talk</SectionLabel>
-            <h1 className="text-5xl lg:text-[80px] font-extrabold text-char-900 tracking-tight mb-6 leading-[1.0]">
+            <h1 className="display-serif text-[clamp(48px,7vw,88px)] text-char-900 tracking-tight mb-6 leading-[0.95]">
               Ready to grow<br />
-              <span className="gradient-gold">faster?</span>
+              <em className="gradient-gold not-italic">faster?</em>
             </h1>
             <p className="text-warm-500 text-xl max-w-xl mx-auto">
               Book a free 30-minute strategy call. We&apos;ll audit your current marketing and show you where the biggest opportunities are.
@@ -51,7 +167,7 @@ export default function ContactPage() {
       <section className="max-w-7xl mx-auto px-5 lg:px-8 pb-24">
         <div className="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
 
-          {/* Form */}
+          {/* Contact form */}
           <AnimateIn>
             <div className="bg-white rounded-3xl border border-warm-200 overflow-hidden shadow-[0_4px_32px_0_rgba(0,0,0,0.06)]">
               {submitted ? (
@@ -135,9 +251,9 @@ export default function ContactPage() {
                 <h3 className="font-bold text-char-700 mb-5 text-xs uppercase tracking-widest">Get in touch</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: Mail,   label: "Email",         value: "hello@apexagency.co" },
-                    { icon: Phone,  label: "Phone",         value: "+1 (415) 555-0192" },
-                    { icon: MapPin, label: "Offices",       value: "San Francisco · New York" },
+                    { icon: Mail,   label: "Email",         value: "hello@roivex.com" },
+                    { icon: Phone,  label: "Phone",         value: "+1 (234) 567-890" },
+                    { icon: MapPin, label: "Location",      value: "New York, NY" },
                     { icon: Clock,  label: "Response time", value: "Within 24 hours" },
                   ].map(({ icon: Icon, label, value }) => (
                     <div key={label} className="flex items-start gap-3">
@@ -174,18 +290,6 @@ export default function ContactPage() {
                   ))}
                 </div>
               </div>
-
-              <div className="bg-white rounded-2xl border border-warm-200 p-5 text-center shadow-[0_2px_12px_0_rgba(0,0,0,0.04)]">
-                <div className="flex justify-center gap-0.5 mb-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg key={i} className="w-3.5 h-3.5 text-gold-400 fill-gold-400" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-xs font-semibold text-char-700">&ldquo;Best agency decision we ever made.&rdquo;</p>
-                <p className="text-[10px] text-warm-400 mt-1">— CMO, Fortune 500 Brand</p>
-              </div>
             </div>
           </AnimateIn>
         </div>
@@ -193,7 +297,7 @@ export default function ContactPage() {
         {/* FAQ */}
         <div className="mt-20">
           <AnimateIn>
-            <h2 className="text-2xl lg:text-3xl font-extrabold text-char-900 tracking-tight text-center mb-10">Common questions</h2>
+            <h2 className="display-serif text-[clamp(28px,3.5vw,44px)] text-char-900 tracking-tight text-center mb-10">Common questions</h2>
           </AnimateIn>
           <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
             {faqs.map((faq, i) => (
@@ -205,6 +309,24 @@ export default function ContactPage() {
               </AnimateIn>
             ))}
           </div>
+        </div>
+
+        {/* Review section */}
+        <div className="mt-20">
+          <AnimateIn>
+            <div className="max-w-2xl mx-auto">
+              <div className="text-center mb-10">
+                <SectionLabel center>Leave a review</SectionLabel>
+                <h2 className="display-serif text-[clamp(28px,3.5vw,44px)] text-char-900 tracking-tight mt-3 mb-3">
+                  Worked with us?
+                </h2>
+                <p className="text-warm-500">Share your experience — approved reviews appear on our homepage.</p>
+              </div>
+              <div className="bg-white rounded-3xl border border-warm-200 p-8 lg:p-10 shadow-[0_4px_32px_0_rgba(0,0,0,0.06)]">
+                <ReviewForm />
+              </div>
+            </div>
+          </AnimateIn>
         </div>
       </section>
     </div>

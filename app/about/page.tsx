@@ -3,7 +3,7 @@ import { TrendingUp, Users, CheckCircle2, Heart, Award } from "lucide-react";
 import Button from "@/components/ui/Button";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn, { AnimateStagger } from "@/components/ui/AnimateIn";
-import { team, stats } from "@/lib/data";
+import { getTeam, getStats } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "About",
@@ -28,7 +28,8 @@ const milestones = [
 
 const teamAccents = ["#C8A45A", "#16A34A", "#9333EA", "#EA580C", "#EF4444", "#0891B2"];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [team, stats] = await Promise.all([getTeam(), getStats()]);
   return (
     <div className="bg-warm-50">
       {/* Hero */}

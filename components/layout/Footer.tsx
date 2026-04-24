@@ -1,68 +1,91 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight, MapPin, Mail, Phone } from "lucide-react";
 import Button from "@/components/ui/Button";
 
-const footerLinks = {
-  Services: [
-    { label: "SEO",          href: "/services" },
-    { label: "Paid Ads",     href: "/services" },
-    { label: "Social Media", href: "/services" },
-    { label: "CRO",          href: "/services" },
-  ],
-  Company: [
-    { label: "About",    href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Blog",     href: "/blog" },
-    { label: "Contact",  href: "/contact" },
-  ],
-  Resources: [
-    { label: "Case Studies", href: "/projects" },
-    { label: "Blog",         href: "/blog" },
-    { label: "Free Audit",   href: "/contact" },
-    { label: "Careers",      href: "/about" },
-  ],
-};
+const services = [
+  "Paid Search",
+  "Paid Social",
+  "Programmatic Media Buying",
+  "SEO",
+  "Website Development",
+  "Affiliate Marketing",
+];
+
+const company = [
+  { label: "About",       href: "/about" },
+  { label: "Projects",    href: "/projects" },
+  { label: "Blog",        href: "/blog" },
+  { label: "Contact",     href: "/contact" },
+];
+
+const socials = [
+  { label: "LinkedIn",  href: "#" },
+  { label: "Instagram", href: "#" },
+  { label: "X",         href: "#" },
+];
 
 export default function Footer() {
   return (
     <footer className="bg-warm-50 border-t border-warm-200">
 
       {/* CTA band */}
-      <div className="bg-char-900 py-20 px-5">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-gold-400 mb-4">Ready to grow?</p>
-          <h2 className="text-3xl lg:text-[52px] font-extrabold text-white tracking-tight mb-5 text-balance leading-[1.05]">
+      <div className="bg-white border-b border-warm-200 py-20 px-5 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[300px] rounded-full bg-gold-100 blur-3xl opacity-60" />
+        </div>
+        <div className="max-w-4xl mx-auto text-center relative">
+          <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-gold-500 mb-4">Ready to grow?</p>
+          <h2 className="display-serif text-[clamp(32px,5vw,56px)] text-char-900 tracking-tight mb-5 leading-[1.05]">
             Turn your marketing into<br className="hidden lg:block" />
-            a revenue machine.
+            <em className="not-italic gradient-gold">a revenue machine.</em>
           </h2>
-          <p className="text-white/50 mb-8 text-lg max-w-xl mx-auto">
+          <p className="text-warm-500 mb-8 text-lg max-w-xl mx-auto">
             Free 30-min strategy call. No commitment, no fluff.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button href="/contact" variant="secondary" size="lg" arrow>Book free strategy call</Button>
-            <Button href="/projects" size="lg" className="!bg-white/10 !text-white !border-white/20 hover:!bg-white/15">View case studies</Button>
+            <Button href="/projects" size="lg" variant="outline">View case studies</Button>
           </div>
         </div>
       </div>
 
-      {/* Links */}
+      {/* Main footer links */}
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-16">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10">
-          <div className="col-span-2">
-            <Link href="/" className="inline-flex items-end gap-0 mb-5">
-              <span className="font-extrabold text-xl tracking-[-0.05em] text-char-900">APEX</span>
-              <span className="text-gold-400 font-extrabold text-xl">.</span>
+        <div className="grid grid-cols-2 lg:grid-cols-[2fr_1.5fr_1fr_1.5fr] gap-10">
+
+          {/* Brand column */}
+          <div className="col-span-2 lg:col-span-1">
+            <Link href="/" className="inline-block mb-5">
+              <Image
+                src="/logo.svg"
+                alt="Roivex Digital Marketing Agency"
+                width={140}
+                height={48}
+                className="h-10 w-auto object-contain"
+              />
             </Link>
             <p className="text-sm text-warm-500 leading-relaxed max-w-[220px] mb-6">
               A premium digital marketing agency helping ambitious brands grow faster with data-driven strategy.
             </p>
+            <div className="space-y-2 mb-6">
+              <a href="mailto:hello@roivex.com" className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
+                <Mail size={12} className="text-gold-400" />hello@roivex.com
+              </a>
+              <a href="tel:+1234567890" className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
+                <Phone size={12} className="text-gold-400" />+1 (234) 567-890
+              </a>
+              <span className="flex items-center gap-2 text-xs text-warm-500">
+                <MapPin size={12} className="text-gold-400" />New York, NY
+              </span>
+            </div>
             <div className="flex items-center gap-2">
-              {["X", "LinkedIn", "Instagram"].map((s) => (
+              {socials.map((s) => (
                 <a
-                  key={s}
-                  href="#"
-                  aria-label={s}
-                  className="w-8 h-8 rounded-lg bg-warm-100 border border-warm-200 flex items-center justify-center text-warm-500 hover:border-gold-400 hover:text-gold-500 transition-all duration-200"
+                  key={s.label}
+                  href={s.href}
+                  aria-label={s.label}
+                  className="w-8 h-8 rounded-lg bg-warm-100 border border-warm-200 flex items-center justify-center text-warm-500 hover:border-gold-400 hover:text-gold-500 hover:bg-gold-50 transition-all duration-200"
                 >
                   <ArrowUpRight size={13} />
                 </a>
@@ -70,30 +93,61 @@ export default function Footer() {
             </div>
           </div>
 
-          {Object.entries(footerLinks).map(([title, items]) => (
-            <div key={title}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-warm-400 mb-4">{title}</h4>
-              <ul className="space-y-2.5">
-                {items.map((item) => (
-                  <li key={item.label}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-char-500 hover:text-gold-500 transition-colors duration-200 font-medium"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          {/* Services */}
+          <div>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-warm-400 mb-5">Services</h4>
+            <ul className="space-y-2.5">
+              {services.map((s) => (
+                <li key={s}>
+                  <Link
+                    href="/services"
+                    className="text-sm text-char-500 hover:text-gold-500 transition-colors duration-200 font-medium flex items-center gap-1.5 group"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-gold-300 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                    {s}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-warm-400 mb-5">Company</h4>
+            <ul className="space-y-2.5">
+              {company.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-char-500 hover:text-gold-500 transition-colors duration-200 font-medium"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Trust badges */}
+          <div>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-warm-400 mb-5">Recognition</h4>
+            <div className="space-y-2.5">
+              {["G2 Top Agency 2024", "Clutch Global Leader", "Forbes Agency Council", "98% Retention Rate"].map((a) => (
+                <div key={a} className="flex items-center gap-2">
+                  <span className="text-gold-400 text-sm">✦</span>
+                  <span className="text-xs font-medium text-char-600">{a}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
+        {/* Bottom bar */}
         <div className="mt-14 pt-6 border-t border-warm-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-warm-400">© 2025 Apex Agency. All rights reserved.</p>
+          <p className="text-sm text-warm-400">© 2025 Roivex Digital Marketing Agency. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="#" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Privacy</Link>
-            <Link href="#" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Terms</Link>
+            <Link href="/privacy" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import SectionLabel from "@/components/ui/SectionLabel";
 import AnimateIn, { AnimateStagger } from "@/components/ui/AnimateIn";
-import { projects } from "@/lib/data";
+import { getProjects } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -28,7 +28,8 @@ const metricColors: Record<string, string> = {
   Healthcare:   "#D97706",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getProjects();
   return (
     <div className="bg-warm-50">
       {/* Hero */}

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { clsx } from "clsx";
@@ -8,10 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/ui/Button";
 
 const links = [
+    { label: "About",     href: "/about" },
   { label: "Services",  href: "/services" },
   { label: "Projects",  href: "/projects" },
   { label: "Blog",      href: "/blog" },
-  { label: "About",     href: "/about" },
+  { label: "Contact",      href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -46,16 +48,15 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-16 lg:h-[70px]">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-0">
-            <span className="font-extrabold text-xl tracking-[-0.05em] text-char-900">APEX</span>
-            <motion.span
-              className="text-gold-400 font-extrabold text-xl"
-              animate={{ rotate: [0, 0] }}
-              whileHover={{ scale: 1.3, rotate: 12 }}
-              transition={{ type: "spring", stiffness: 400, damping: 16 }}
-            >
-              .
-            </motion.span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.svg"
+              alt="Roivex Digital Marketing Agency"
+              width={120}
+              height={40}
+              className="h-9 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -104,7 +105,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-warm-50/98 backdrop-blur-xl pt-16 px-5 flex flex-col"
+            className="fixed inset-0 z-40 bg-warm-50/98 backdrop-blur-xl pt-[70px] px-5 flex flex-col"
           >
             <nav className="flex flex-col gap-1 py-8">
               {links.map((l, i) => (
