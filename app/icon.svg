@@ -1,0 +1,14 @@
+<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark rounded background -->
+  <rect width="32" height="32" rx="7" fill="#1a1a18"/>
+  <!-- Gold circle ring (brand mark) -->
+  <circle cx="16" cy="16" r="12" stroke="#F5C518" stroke-width="2"/>
+  <!-- 3 ascending bar chart columns -->
+  <rect x="9"    y="19" width="3" height="4"  rx="0.7" fill="white"/>
+  <rect x="13.5" y="15" width="3" height="8"  rx="0.7" fill="white"/>
+  <rect x="18"   y="11" width="3" height="12" rx="0.7" fill="white"/>
+  <!-- Gold trend line ascending from bars to arrow -->
+  <line x1="10.5" y1="20.5" x2="20" y2="10.5" stroke="#F5C518" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Arrowhead pointing upper-right -->
+  <polygon points="23,6.5 25,12 20,10.5" fill="#F5C518"/>
+</svg>

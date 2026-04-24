@@ -1,0 +1,14 @@
+<svg viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark rounded background -->
+  <rect width="180" height="180" rx="40" fill="#1a1a18"/>
+  <!-- Gold circle ring -->
+  <circle cx="90" cy="90" r="68" stroke="#F5C518" stroke-width="11"/>
+  <!-- 3 ascending bars -->
+  <rect x="51"  y="108" width="17" height="24" rx="4" fill="white"/>
+  <rect x="76"  y="87"  width="17" height="45" rx="4" fill="white"/>
+  <rect x="101" y="63"  width="17" height="69" rx="4" fill="white"/>
+  <!-- Gold trend line -->
+  <line x1="59" y1="116" x2="113" y2="59" stroke="#F5C518" stroke-width="9" stroke-linecap="round"/>
+  <!-- Arrowhead -->
+  <polygon points="131,37 141,68 114,59" fill="#F5C518"/>
+</svg>

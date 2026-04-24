@@ -57,6 +57,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: { canonical: BASE_URL },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-icon.svg", type: "image/svg+xml" },
+    ],
+  },
   verification: {
     // google: "YOUR_GOOGLE_VERIFICATION_CODE",  // add after Search Console setup
   },
