@@ -73,36 +73,38 @@ export const PARTNER_LOGOS_QUERY = `*[_type == "partnerLogo"] | order(order asc)
 }`;
 
 // ─── Helper functions ─────────────────────────────────────────────────────────
+const REVALIDATE = { next: { revalidate: 0 } };
+
 export async function getSiteSettings() {
-  return client.fetch(SITE_SETTINGS_QUERY);
+  return client.fetch(SITE_SETTINGS_QUERY, {}, REVALIDATE);
 }
 export async function getHero() {
-  return client.fetch(HERO_QUERY);
+  return client.fetch(HERO_QUERY, {}, REVALIDATE);
 }
 export async function getServices() {
-  return client.fetch(SERVICES_QUERY);
+  return client.fetch(SERVICES_QUERY, {}, REVALIDATE);
 }
 export async function getProjects() {
-  return client.fetch(PROJECTS_QUERY);
+  return client.fetch(PROJECTS_QUERY, {}, REVALIDATE);
 }
 export async function getFeaturedProjects() {
-  return client.fetch(FEATURED_PROJECTS_QUERY);
+  return client.fetch(FEATURED_PROJECTS_QUERY, {}, REVALIDATE);
 }
 export async function getBlogPosts() {
-  return client.fetch(BLOG_POSTS_QUERY);
+  return client.fetch(BLOG_POSTS_QUERY, {}, REVALIDATE);
 }
 export async function getBlogPost(slug: string) {
-  return client.fetch(BLOG_POST_QUERY, { slug });
+  return client.fetch(BLOG_POST_QUERY, { slug }, REVALIDATE);
 }
 export async function getTestimonials() {
-  return client.fetch(TESTIMONIALS_QUERY);
+  return client.fetch(TESTIMONIALS_QUERY, {}, REVALIDATE);
 }
 export async function getTeam() {
-  return client.fetch(TEAM_QUERY);
+  return client.fetch(TEAM_QUERY, {}, REVALIDATE);
 }
 export async function getStats() {
-  return client.fetch(STATS_QUERY);
+  return client.fetch(STATS_QUERY, {}, REVALIDATE);
 }
 export async function getPartnerLogos() {
-  return client.fetch(PARTNER_LOGOS_QUERY);
+  return client.fetch(PARTNER_LOGOS_QUERY, {}, REVALIDATE);
 }
