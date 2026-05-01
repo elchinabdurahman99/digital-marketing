@@ -17,15 +17,6 @@ const values = [
   { icon: Heart,        title: "Long-term thinking",    desc: "We build sustainable growth systems, not quick hacks. Our average client tenure is 3.2 years.", accent: "#EA580C" },
 ];
 
-const milestones = [
-  { year: "2015", event: "Founded by Alex Morgan in a San Francisco apartment." },
-  { year: "2017", event: "Hit 50 clients. Hired our first 5 full-time specialists." },
-  { year: "2019", event: "Expanded into paid media and CRO. Opened NYC office." },
-  { year: "2021", event: "Surpassed $1B in revenue generated for clients." },
-  { year: "2023", event: "Launched proprietary analytics platform for clients." },
-  { year: "2025", event: "300+ clients. $2.4B in attributed client revenue. Still growing." },
-];
-
 const teamAccents = ["#C8A45A", "#16A34A", "#9333EA", "#EA580C", "#EF4444", "#0891B2"];
 
 export default async function AboutPage() {
@@ -94,21 +85,7 @@ export default async function AboutPage() {
               </div>
             </AnimateIn>
 
-            {/* Timeline */}
-            <AnimateIn delay={150}>
-              <h3 className="text-xs font-bold tracking-[0.18em] uppercase text-warm-400 mb-8">Our journey</h3>
-              <div className="relative pl-6 border-l border-warm-200">
-                {milestones.map((m) => (
-                  <div key={m.year} className="relative mb-8 last:mb-0">
-                    <div className="absolute -left-[calc(1.5rem+1px)] top-1 w-3 h-3 rounded-full bg-gold-400 border-2 border-warm-50 shadow-[0_0_0_3px_rgba(200,164,90,0.2)]" />
-                    <div className="pl-4">
-                      <div className="text-xs font-bold text-gold-500 tracking-wider mb-1">{m.year}</div>
-                      <p className="text-char-600 text-sm font-medium leading-relaxed">{m.event}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </AnimateIn>
+
           </div>
         </div>
       </section>

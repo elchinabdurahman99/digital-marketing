@@ -72,8 +72,7 @@ export const PARTNER_LOGOS_QUERY = `*[_type == "partnerLogo"] | order(order asc)
   _id, name, logo, url
 }`;
 
-// ─── Helper functions ─────────────────────────────────────────────────────────
-const REVALIDATE = { next: { revalidate: 0 } };
+const REVALIDATE = { next: { tags: ['sanity-data'] } };
 
 export async function getSiteSettings() {
   return client.fetch(SITE_SETTINGS_QUERY, {}, REVALIDATE);
