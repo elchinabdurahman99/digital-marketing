@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, MapPin, Mail, Phone } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { getSiteSettings } from "@/sanity/lib/queries";
 
 const services = [
   "Paid Search",
@@ -25,7 +26,13 @@ const socials = [
   { label: "X",         href: "#" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getSiteSettings();
+  const email = settings?.contact?.email || "hello@roivex.com";
+  const phone = settings?.contact?.phone || "+1 (234) 567-890";
+  const address = settings?.contact?.address || "New York, NY";
+  const siteName = settings?.siteName || "Roivex Digital Marketing Agency";
+
   return (
     <footer className="bg-warm-50 border-t border-warm-200">
 
@@ -69,14 +76,14 @@ export default function Footer() {
               A premium digital marketing agency helping ambitious brands grow faster with data-driven strategy.
             </p>
             <div className="space-y-2 mb-6">
-              <a href="mailto:hello@roivex.com" className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
-                <Mail size={12} className="text-gold-400" />hello@roivex.com
+              <a href={`mailto:${email}`} className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
+                <Mail size={12} className="text-gold-400" />{email}
               </a>
-              <a href="tel:+1234567890" className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
-                <Phone size={12} className="text-gold-400" />+1 (234) 567-890
+              <a href={`tel:${phone.replace(/[^0-9+]/g, '')}`} className="flex items-center gap-2 text-xs text-warm-500 hover:text-gold-500 transition-colors">
+                <Phone size={12} className="text-gold-400" />{phone}
               </a>
               <span className="flex items-center gap-2 text-xs text-warm-500">
-                <MapPin size={12} className="text-gold-400" />New York, NY
+                <MapPin size={12} className="text-gold-400" />{address}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -144,7 +151,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-14 pt-6 border-t border-warm-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-warm-400">© 2025 Roivex Digital Marketing Agency. All rights reserved.</p>
+          <p className="text-sm text-warm-400">© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="text-xs text-warm-400 hover:text-char-700 transition-colors">Terms of Service</Link>
