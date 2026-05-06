@@ -581,7 +581,7 @@ export default function HomePageClient({ hero, services, featuredProjects, testi
                   </li>
                 ))}
               </ul>
-              <Button href="/about" variant="outline" arrow>Our story</Button>
+{/* <Button href="/about" variant="outline" arrow>Our story</Button> */}
             </AnimateIn>
 
             <AnimateIn delay={150}>
@@ -613,8 +613,7 @@ export default function HomePageClient({ hero, services, featuredProjects, testi
         </div>
       </section>
 
-      {/* ═══ TESTIMONIALS AUTO-SLIDER ════════════════════════════ */}
-      <TestimonialsSlider testimonials={testimonials} />
+      {/* <TestimonialsSlider testimonials={testimonials} /> */}
 
     </div>
   );

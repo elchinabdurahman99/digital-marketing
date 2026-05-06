@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/ui/Button";
 
 const links = [
-    { label: "About",     href: "/about" },
+// { label: "About",     href: "/about" },
   { label: "Services",  href: "/services" },
   { label: "Projects",  href: "/projects" },
   { label: "Blog",      href: "/blog" },
